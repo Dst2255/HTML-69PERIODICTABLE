@@ -1,0 +1,237 @@
+:root {
+    --bg-color: #e0e5ec;
+    --primary-color: #4a76f2;
+    --text-color: #5f677A;
+    --light-shadow: rgba(255, 255, 255, 0.9);
+    --dark-shadow: rgba(163, 177, 198, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+header .subtitle {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.periodic-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: inset 5px 5px 10px var(--dark-shadow),
+                inset -5px -5px 10px var(--light-shadow);
+}
+
+.periodic-table {
+    display: grid;
+    grid-template-columns: repeat(18, 65px);
+    grid-template-rows: repeat(10, 65px);
+    gap: 5px;
+    padding: 20px;
+    min-width: 1265px; /* (18 * 65px) + (17 * 5px) */
+}
+
+.element {
+    grid-column-start: var(--col);
+    grid-row-start: var(--row);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: var(--bg-color);
+    box-shadow: 5px 5px 10px var(--dark-shadow),
+                -5px -5px 10px var(--light-shadow);
+    will-change: transform, box-shadow; /* Performance hint */
+}
+
+.element:hover {
+    transform: translateY(-2px);
+    box-shadow: 7px 7px 15px var(--dark-shadow),
+                -7px -7px 15px var(--light-shadow);
+}
+
+.element:active {
+    box-shadow: inset 3px 3px 7px var(--dark-shadow),
+                inset -3px -3px 7px var(--light-shadow);
+    transform: translateY(1px);
+}
+
+.element-symbol {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.element-number {
+    font-size: 0.6rem;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.element-name {
+    font-size: 0.5rem;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Color coding for categories */
+.nonmetal { border-top: 3px solid #6ab04c; }
+.noble-gas { border-top: 3px solid #4834d4; }
+.alkali-metal { border-top: 3px solid #f0932b; }
+.alkaline-earth-metal { border-top: 3px solid #ffbe76; }
+.metalloid { border-top: 3px solid #130f40; }
+.post-transition-metal { border-top: 3px solid #7ed6df; }
+.transition-metal { border-top: 3px solid #e056fd; }
+.lanthanide { border-top: 3px solid #ff7979; }
+.actinide { border-top: 3px solid #eb4d4b; }
+.unknown { border-top: 3px solid #b2bec3; }
+
+/* Modal Styles */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.modal-container.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--bg-color);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 20px var(--dark-shadow),
+                -10px -10px 20px var(--light-shadow);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal-container.visible .modal-content {
+    transform: scale(1);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--dark-shadow);
+    padding-bottom: 15px;
+}
+
+.modal-symbol {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-right: 20px;
+    line-height: 1;
+}
+
+.modal-title h2 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.modal-title p {
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.modal-body #modal-summary {
+    margin-bottom: 20px;
+}
+
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.modal-details-grid div {
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: inset 3px 3px 7px var(--dark-shadow),
+                inset -3px -3px 7px var(--light-shadow);
+}
+
+.modal-details-grid span {
+    font-weight: 600;
+    display: block;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--dark-shadow);
+}
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+footer .motivational-quote {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
